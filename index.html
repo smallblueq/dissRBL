@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <title>TRPG-Dungeons & Goblin</title>
+    <link rel="icon" href="pic/smallkoba.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="pic/smallkoba.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <style type="text/css">
+    </style>
+    <script>
+        function hover(x){
+            var music = document.getElementById("music");
+            music.src="music/Slip.mp3";
+            music.play();
+        }
+        function not_hover(x){
+            var music = document.getElementById("music");            
+
+            if(music.play)
+            {
+                music.src = "";
+            }
+        }
+    </script>
+    <body>
+        <div style="position:absolute;top: 0%;left:0%; width:100%; height:100%; z-index:-2;opacity: 0.6;">
+                <img src="pic/60.jpg" height="100%" width="100%"/>
+        </div>
+        <img src = "pic/1321.png" id = "pic" style="position: absolute;right:0%;top: 0%;max-width: 65%;max-height: 65%;opacity: 0.7">
+        <audio id="music" src=""></audio>
+
+        <div style="position:absolute;top:20%;left:20%;">
+            <a href="公告.html" target="_blank" id="announcement" ><img src="pic/公告.png" width="154px"height="87.5px" onmouseover="hover(this);this.style.width='169.4px';this.style.height='96.25px'" onmouseout="not_hover(this);this.style.width='154px';this.style.height='87.5px'"></a>
+        </div>
+        <div style="position:absolute;top:40%;left:20%;">
+            <a href="創作者.html"  id="us" ><img src="pic/創作者.png" width="233.5px"height="92.5px" onmouseover="hover(this);this.style.width='256.85px';this.style.height='101.75px'" onmouseout="not_hover(this);this.style.width='233.5px';this.style.height='92.5px'"></a>
+        </div>
+        
+        <div style="position:absolute;top:60%;left:20%;">
+            <a href="創建地下城.html" target="_blank" id="create" ><img src="pic/創建地下城.png" width="361px" height="92.5px" onmouseover="hover(this);this.style.width='397.1px';this.style.height='101.75px'" onmouseout="not_hover(this);this.style.width='361px';this.style.height='92.5px'" ></a>
+        </div>
+    </body>
+    
+    </head>
+</html>
