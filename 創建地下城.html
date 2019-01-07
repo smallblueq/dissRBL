@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    <title>TRPG-Dungeons & Goblin</title>
+    <link rel="icon" href="pic/smallkoba.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="pic/smallkoba.ico" type="image/x-icon" />
+    <meta charset="utf-8">
+    <style type="text/css">
+        #list{
+            position: absolute;
+            top: 25%;
+            left: -125px;
+	        width: 150px;
+	        height: 480px;
+            background: rgba(255,255,204,0.25);
+            padding: 10px 20px;
+	        border-radius: 10px;
+	        margin-top: -50px;
+	        -webkit-transition: 0.6s;
+        }
+        #list:hover{
+            left: 2px;
+	        -webkit-transition: 0.6s;
+        }
+        #display{
+            position: absolute;
+            right: 0px;
+            background: rgba(12, 16, 241, 0.226);
+            border-radius:10px; 
+            width: 26%;
+            height: 90%;
+        }
+        #show{
+            font-family: fantasy,微軟正黑體;
+
+
+        }
+        #textarea1,#textarea2{
+            position: relative;
+            left: 10px;
+            top: 20px;
+        }
+        #innerwindow{
+            display: none;
+        }
+        .g1{
+            border-color: rgb(170, 170, 170);
+            border-style: solid;
+            background-color: rgb(253, 236, 236);
+        }
+
+    </style>
+    <script>
+        function start(){
+            var button=document.getElementById("enter");
+            button.addEventListener("click",enterIn,false);
+        }
+        function enterIn(){
+            document.getElementById("textarea2").innerHTML=document.getElementById("textare1").innerHTML;
+            document.getElementById("textarea1").innerHTML="";
+        }
+        function PlayMusic(){
+            var button=document.getElementById("play");
+            var music=document.getElementById("music");
+            if(music.paused){
+                music.play();
+                button.src="pic/暫停.png";
+            }
+            else{
+                music.pause();
+                button.src="pic/播放.png";
+            }
+        }
+
+        function VolumeRange()
+        {
+            var audioVolume = document.getElementById("music");
+            var rangee = document.getElementById("range");
+            audioVolume.volume = rangee.value/100;
+        
+        }
+        function text(){
+                if(event.keyCode==13)
+                {
+                    var content = document.getElementById("textarea1");
+                    var show = document.getElementById("show");
+                    if(content.value!=""&&content.value!='\n'){
+                        show.innerHTML += content.value + "<br>";
+                    }
+                    if(content.value.substring(0,7)=="/music " ||content.value.substring(0,8)=="\n/music "){
+
+                        if(content.value.startsWith('\n')){
+                            var music=document.getElementById("music");
+                            music.src="music/" + content.value.substring(8,);
+                            show.innerHTML+="已將 "+content.value.substring(7,)+" 換成播放歌曲，<br>若沒音樂請檢查音檔位置<br>";
+                        }
+                        else if(content.value.startsWith('/music ')){
+                            var music=document.getElementById("music");
+                            music.src="music/" + content.value.substring(7,);
+                            show.innerHTML+="已將 "+content.value.substring(7,)+" 換成播放歌曲，<br>若沒音樂請檢查音檔位置<br>";
+                        }
+                    }
+                    else if(content.value.substring(0,5)=="/dice" ||content.value.substring(0,6)=="\n/dice"){
+                        var dice_one = Math.floor(Math.random()*100+1);
+                        var dice_two = Math.floor(Math.random()*20+1);
+                        if(content.value.startsWith('\n')){
+
+                            if(content.value.startsWith('\n/dice100 '))
+                            {
+
+                                if(content.value.substring(10,)>100 || content.value.substring(10,)<1)
+                                    show.innerHTML+="無效的指令<br>";
+                                else{
+                                    show.innerHTML+="123骰出了"+ dice_one +"("+content.value.substring(10,)+")-->";//+ dice_one>=content.value.substring(10,)+"<br>";
+                                    show.innerHTML+= dice_one<=content.value.substring(10,);
+                                    show.innerHTML+= "<br>";
+                                }
+                            }
+                            else if(content.value.startsWith('\n/dice20 ')){
+                                if(content.value.substring(9,)>20 || content.value.substring(9,)<1)
+                                    show.innerHTML+="無效的指令<br>";
+                                else{
+                                    show.innerHTML+="123骰出了"+ dice_two +"("+content.value.substring(9,)+")-->";
+                                    show.innerHTML+= dice_two>=content.value.substring(9,);
+                                    show.innerHTML+= "<br>";
+                                }
+                        }
+                        }
+                        else if(content.value.startsWith('/dice')){
+                            if(content.value.startsWith('/dice100 '))
+                            {
+                                if(content.value.substring(9,)>100 || content.value.substring(9,) < 1)
+                                    show.innerHTML+="無效的指令<br>";
+                                else{
+                                    show.innerHTML+="123骰出了"+ dice_one +"("+content.value.substring(9,)+")-->";//+ dice_one>=content.value.substring(10,)+"<br>";
+                                    show.innerHTML+= dice_one<=content.value.substring(9,);
+                                    show.innerHTML+= "<br>";
+                                }   
+                            }
+                            else if(content.value.startsWith('/dice20 ')){
+                                if(content.value.substring(8,)>20 || content.value.substring(8,) < 1)
+                                    show.innerHTML+="無效的指令<br>";
+                                else{
+                                    show.innerHTML+="123骰出了"+ dice_two +"("+content.value.substring(8,)+")-->";
+                                    show.innerHTML+= dice_two>=content.value.substring(8,);
+                                    show.innerHTML+= "<br>";
+                                }
+                            }
+                        }
+                    }
+                    else if(content.value.substring(0,4)=="/bg " ||content.value.substring(0,5)=="\n/bg "){
+                        if(content.value.startsWith('\n')){
+                            var bg=document.getElementById("bg");
+                            bg.src="pic/" + content.value.substring(5,);
+                            show.innerHTML+="已將 "+content.value.substring(5,)+" 換成背景，若沒有圖片請檢查圖檔位置<br>";
+                        }
+                        else if(content.value.startsWith('/bg ')){
+                            var bg=document.getElementById("bg");
+                            bg.src="pic/" + content.value.substring(4,);
+                            show.innerHTML+="已將 "+content.value.substring(4,)+" 換成背景，若沒有圖片請檢查圖檔位置<br>";
+                        }
+                    }
+                    else if(content.value.substring(0,5)=="/pic " ||content.value.substring(0,6)=="\n/pic "){
+                        if(content.value.startsWith('\n')){
+                            var mon=document.getElementById("mon");
+                            mpn.src="pic/" + content.value.substring(6,);
+                            show.innerHTML+="已將 "+content.value.substring(6,)+" 貼上，若沒有圖片請檢查圖檔位置<br>";
+                        }
+                        else if(content.value.startsWith('/pic ')){
+                            var mon=document.getElementById("mon");
+                            mon.src="pic/" + content.value.substring(5,);
+                            show.innerHTML+="已將 "+content.value.substring(5,)+" 貼上，若沒有圖片請檢查圖檔位置<br>";
+                        }
+                    }
+                    
+                    content.value = "";
+                }
+        }
+        var count=0;
+        function showChar(){
+            var char=document.getElementById("innerwindow");
+            if (count%2==0){
+                char.style="position:absolute;top:10%;left:30%;border-style: solid;border-color:rgb(104, 98, 98);display:inline;z-index:100;background-color:rgba(128, 128, 128, 0.07);";
+            }
+            else if(count%2==1){
+                char.style="display:none";
+            }
+            count++;
+        }
+        function save1(){
+            var HP1=document.getElementById("1HP");
+            var MaxHP1=document.getElementById("1MaxHP");
+            var MP1=document.getElementById("1MP");
+            var MaxMP1=document.getElementById("1MaxMP");
+            var SAN1=document.getElementById("1SAN");
+            var MaxSAN1=document.getElementById("1MaxSAN");
+            var status1=document.getElementById("1status");
+            var char1=document.getElementById("1char");
+            var STR1=document.getElementById("1STR");
+            var CON1=document.getElementById("1CON");
+            var POW1=document.getElementById("1POW");
+            var DEX1=document.getElementById("1DEX");
+            var APP1=document.getElementById("1APP");
+            var SIZE1=document.getElementById("1SIZE");
+            var INT1=document.getElementById("1INT");
+            var EDU1=document.getElementById("1EDU");
+            var IDEA1=document.getElementById("1IDEA");
+            var LUCK1=document.getElementById("1LUCK");
+            var KNOW1=document.getElementById("1KNOW");
+            localStorage.setItem("1HP",HP1.value);
+            localStorage.setItem("1MaxHP",MaxHP1.value);
+            localStorage.setItem("1MP",MP1.value);
+            localStorage.setItem("1MaxMP",MaxMP1.value);
+            localStorage.setItem("1SAN",SAN1.value);
+            localStorage.setItem("1MaxSAN",MaxSAN1.value);
+            localStorage.setItem("1status",status1.value);
+            localStorage.setItem("1char",char1.value);
+            localStorage.setItem("1STR",STR1.value);
+            localStorage.setItem("1CON",CON1.value);
+            localStorage.setItem("1POW",POW1.value);
+            localStorage.setItem("1DEX",DEX1.value);
+            localStorage.setItem("1APP",APP1.value);
+            localStorage.setItem("1SIZE",SIZE1.value);
+            localStorage.setItem("1INT",INT1.value);
+            localStorage.setItem("1EDU",EDU1.value);
+            localStorage.setItem("1IDEA",IDEA1.value);
+            localStorage.setItem("1LUCK",LUCK1.value);
+            localStorage.setItem("1KNOW",KNOW1.value);
+            for(var i=1 ;i<=35;i++){
+                if(i<10){
+                    var ability=document.getElementById("10"+i);
+                    localStorage.setItem("10"+i,ability.value);
+                }
+                else {
+                    var ability=document.getElementById("1"+i);
+                    localStorage.setItem("1"+i,ability.value);
+                }
+            }
+
+
+        }
+        function remove1(){
+            localStorage.removeItem("1HP");
+            localStorage.removeItem("1MaxHP");
+            localStorage.removeItem("1MP");
+            localStorage.removeItem("1MaxMP");
+            localStorage.removeItem("1SAN");
+            localStorage.removeItem("1MaxSAN");
+            localStorage.removeItem("1status");
+            localStorage.removeItem("1char");
+            localStorage.removeItem("1STR");
+            localStorage.removeItem("1CON");
+            localStorage.removeItem("1POW");
+            localStorage.removeItem("1DEX");
+            localStorage.removeItem("1APP");
+            localStorage.removeItem("1SIZE");
+            localStorage.removeItem("1INT");
+            localStorage.removeItem("1EDU");
+            localStorage.removeItem("1IDEA");
+            localStorage.removeItem("1LUCK");
+            localStorage.removeItem("1KNOW");
+            for(var i=1;i<=35;i++){
+                if(i<10){
+                    localStorage.removeItem("10"+i);
+                }
+                else{
+                    localStorage.removeItem("1"+i);
+                }
+            }
+            var HP1=document.getElementById("1HP");
+            var MaxHP1=document.getElementById("1MaxHP");
+            var MP1=document.getElementById("1MP");
+            var MaxMP1=document.getElementById("1MaxMP");
+            var SAN1=document.getElementById("1SAN");
+            var MaxSAN1=document.getElementById("1MaxSAN");
+            var status1=document.getElementById("1status");
+            var char1=document.getElementById("1char");
+            var STR1=document.getElementById("1STR");
+            var CON1=document.getElementById("1CON");
+            var POW1=document.getElementById("1POW");
+            var DEX1=document.getElementById("1DEX");
+            var APP1=document.getElementById("1APP");
+            var SIZE1=document.getElementById("1SIZE");
+            var INT1=document.getElementById("1INT");
+            var EDU1=document.getElementById("1EDU");
+            var IDEA1=document.getElementById("1IDEA");
+            var LUCK1=document.getElementById("1LUCK");
+            var KNOW1=document.getElementById("1KNOW");
+            HP1.value="";
+            MaxHP1.value="";
+            MP1.value="";
+            MaxMP1.value="";
+            SAN1.value="";
+            MaxSAN1.value="";
+            status1.value="";
+            char1.value="";
+            STR1.value="";
+            CON1.value="";
+            POW1.value="";
+            DEX1.value="";
+            APP1.value="";
+            SIZE1.value="";
+            INT1.value="";
+            EDU1.value="";
+            IDEA1.value="";
+            LUCK1.value="";
+            KNOW1.value="";
+            for(var i=1 ;i<=35;i++){
+                if(i<10){
+                    var ability=document.getElementById("10"+i);
+                    ability.value="";
+                }
+                else {
+                    var ability=document.getElementById("1"+i);
+                    ability.value="";
+                }
+            }
+        }
+        function read1(){
+            document.getElementById("1HP").value=localStorage.getItem("1HP");
+            document.getElementById("1MaxHP").value=localStorage.getItem("1MaxHP");
+            document.getElementById("1MP").value=localStorage.getItem("1MP");
+            document.getElementById("1MaxMP").value=localStorage.getItem("1MaxMP");
+            document.getElementById("1SAN").value=localStorage.getItem("1SAN");
+            document.getElementById("1MaxSAN").value=localStorage.getItem("1MaxSAN");
+            document.getElementById("1status").value=localStorage.getItem("1status");
+            document.getElementById("1char").value=localStorage.getItem("1char");
+            document.getElementById("1STR").value=localStorage.getItem("1STR");
+            document.getElementById("1CON").value=localStorage.getItem("1CON");
+            document.getElementById("1POW").value=localStorage.getItem("1POW");
+            document.getElementById("1DEX").value=localStorage.getItem("1DEX");
+            document.getElementById("1APP").value=localStorage.getItem("1APP");
+            document.getElementById("1SIZE").value=localStorage.getItem("1SIZE");
+            document.getElementById("1INT").value=localStorage.getItem("1INT");
+            document.getElementById("1EDU").value=localStorage.getItem("1EDU");
+            document.getElementById("1IDEA").value=localStorage.getItem("1IDEA");
+            document.getElementById("1LUCK").value=localStorage.getItem("1LUCK");
+            document.getElementById("1KNOW").value=localStorage.getItem("1KNOW");
+            for(var i=1 ;i<=35;i++){
+                if(i<10){
+                    var ability=document.getElementById("10"+i);
+                    ability.value=localStorage.getItem("10"+i);
+                }
+                else {
+                    var ability=document.getElementById("1"+i);
+                    ability.value=localStorage.getItem("1"+i);
+                }
+            }
+        }
+    </script>
+    </head>
+    <body>
+            <div id="innerwindow">
+                    <div class="g1">基礎數值<br>
+                             HP<input type="text" size="1" value="10" id="1HP">/<input type="text"  size="1"  value="10" id="1MaxHP">&nbsp&nbsp Mp:<input type="text"  value="10"  size="1" id="1MP">/<input type="text" value="10" size="1" id="1MaxMP">&nbsp&nbsp SAN:<input type="text" id="1SAN" value="50" size="1">/<input type="text" id="1MaxSAN" value="100" size="1">&nbsp&nbsp 狀態值:<input type="text" size="3"id="1status" ><br><br>
+                             職業:<input type="text"size="5" id="1char">
+                    <br>
+                    <br>
+                    </div>
+    
+                    <div class="g1">角色能力<br>
+                             STR:<input type="text"id="1STR" value="7" size="1"> CON:<input type="text"  value="7" id="1CON" size="1"> POW:<input type="text" id="1POW" value="7" size="1"> DEX:<input type="text" id="1DEX" value="7" size="1"> APP:<input type="text" id="1APP" value="7" size="1"> <br><br>
+                             SIZE:<input type="text" id="1SIZE" value="7" size="1"> INT:<input type="text" value="7" id="1INT" size="1"> EDU:<input type="text" id="1EDU" value="7" size="1"> IDEA:<input type="text" id="1IDEA" value="50" size="1"> LUCK:<input type="text" id="1LUCK" value="50" size="1"> <br><br>
+                             KNOW:<input type="text" id="1KNOW" value="50" size="1">
+                    <br>
+                    <br>
+                    </div>
+    
+                    <div class="g1">角色技能<br>
+                             會計:<input type="text" id="101" value="10" size="1"> 科學知識:<input type="text" id="102" value="1" size="1"> 藝術:<input type="text" id="103" value="5" size="1"> 攀爬:<input type="text" id="104" value="40" size="1"> 電腦:<input type="text" id="105" value="1" size="1"> <br><br>
+                             躲藏:<input type="text" id="106" value="15" size="1"> 手工藝:<input type="text" id="107" value="5" size="1"> 信譽度:<input type="text" id="108" value="15" size="1"> 喬裝:<input type="text" id="109" value="1" size="1"> 閃躲:<input type="text" id="110" value="14" size="1"> <br><br>
+                             駕駛:<input type="text" id="111" value="20" size="1"> 電器維修:<input type="text" id="112" value="20" size="1"> 急救:<input type="text" id="113" value="30" size="1"> 拳頭:<input type="text" id="114" value="50" size="1"> 擒拿:<input type="text" id="115" value="14" size="1"> <br><br>
+                             槍枝:<input type="text" id="116" value="20" size="1"> 歷史:<input type="text" value="20" id="117" size="1"> 跳躍:<input type="text" id="118" value="25" size="1"> 踢擊:<input type="text" id="119" value="25" size="1"> 自然科學:<input type="text" id="120" value="5" size="1"> <br><br>
+                             圖書:<input type="text" id="121" value="25" size="1"> 聆聽:<input type="text" id="122" value="25" size="1"> 開鎖:<input type="text" id="123" value="1" size="1"> 武術:<input type="text" id="124" value="1" size="1"> 機械維修:<input type="text" id="125" value="20" size="1"> <br><br>
+                             醫學:<input type="text" id="126" value="5" size="1"> 法律:<input type="text" id="127" value="5" size="1"> 導航:<input type="text" id="128"  value="10" size="1"> 母語:<input type="text" id="129" value="40" size="1"> 其他語言:<input type="text" id="130" value="1" size="1"> <br><br>
+                             說服:<input type="text" id="131" value="15"size="1"> 攝影:<input type="text" id="132" value="10" size="1"> 心理學:<input type="text" id="133" value="5" size="1"> 騎乘:<input type="text" id="134" value="5" size="1"> 觀察:<input type="text" id="135" value="25" size="1"> <br><br>
+                    </div>
+
+                    <input type="button" id="save1" value="save" onclick="save1()">
+                    <input type="button" id="remove1"value="remove" onclick="remove1()">
+                    <input type="button" id="read1" value="read" onclick="read1()">
+
+            </div>
+
+            <div style="position:absolute;top: 0%;left:0%; width:100%; height:100%; z-index:-2;">
+                    <img src="pic/背景圖片.png" id="bg" height="100%" width="100%"/>
+            </div>
+            <img src = "" id = "mon" style="position: absolute;right:40%;bottom: 0%;width:auto;height:auto;max-width: 80%;max-height:80% ;">
+            
+            <audio controls id="music" loop="loop" src=""></audio>
+
+            <div id="list">
+                <a href="指令.html"><img src="pic/令.png" id="instructio"   width="50"height="50"></a>
+            </div>
+            <input type="button" style="position: absolute;right:21.5%;font-size:25px"  id="role" value="角色" onclick="showChar()">
+            <div id="display">
+
+                <div id="show"  style="overflow:scroll;height:550px;background-color: rgba(12, 16, 241, 0.226);width:100%; " ></div>
+                <textarea id="textarea1" cols="50" rows="5" onkeydown="text()" style="border-radius:10px;" placeholder="這裡可以輸入指令喔(指令可按左邊按鈕前往指令區)"></textarea><br><br>
+
+            </div>
+
+    </body>
+</html>
